@@ -18,72 +18,68 @@
 {% endblock %}
 
 {% block content %}
-
-      <!-- Main content -->
-    <section class="content">
-    <div class="row">
-        <!-- row -->
-        <div class="col-md-12">
-          <!-- jQuery Knob -->
-          <div class="box box-solid">
-            <div class="box-header">
-              <i class="fa fa-bar-chart-o"></i>
-
-              <h3 class="box-title">设备状态<small>(%)</small></h3>
-
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-default btn-sm" data-widget="remove"><i class="fa fa-times"></i>
-                </button>
-              </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="row">
-                <div class="col-xs-6 col-md-2 col-md-offset-1 text-center">
-                  <input type="text" class="knob" value="{{ up_rate }}" data-width="90" data-height="90" data-fgColor="#00a65a" data-readonly="true">
-
-                  <div class="knob-label">在线</div>
-                </div>
-                <!-- ./col -->
-                <div class="col-xs-6 col-md-2 text-center">
-                  <input type="text" class="knob" value="{{ o_rate }}" data-width="90" data-height="90" data-fgColor="#f56954" data-readonly="true">
-
-                  <div class="knob-label">下线</div>
-                </div>
-                <!-- ./col -->
-
-
-                <div class="col-xs-6 col-md-2 text-center">
-                  <input type="text" class="knob" value="{{ bd_rate }}" data-width="90" data-height="90" data-fgColor="#932ab6" data-readonly="true">
-
-                  <div class="knob-label">故障</div>
-                </div>
-                <!-- ./col -->
-                <div class="col-xs-6 col-md-2 text-center">
-                  <input type="text" class="knob" value="{{ bu_rate }}" data-width="90" data-height="90" data-fgColor="#3c8dbc" data-readonly="true">
-
-                  <div class="knob-label">备用</div>
-                </div>
-                  <!-- ./col -->
-                <div class="col-xs-6 col-md-2 text-center">
-                  <input type="text" class="knob" value="{{ un_rate }}" data-width="90" data-height="90" data-fgColor="#cccccc" data-readonly="true">
-
-                  <div class="knob-label">未知</div>
-                </div>
-                <!-- ./col -->
-              </div>
-              <!-- /.row -->
-            </div>
-            <!-- /.box-body -->
+<!-- Main content -->
+<section class="content">
+  {% if total == 0 %}
+    <tbody>
+      <tr>没有数据！</tr>
+    </tbody>
+  {% else %}
+  <div class="row">
+    <!-- row -->
+    <div class="col-md-12">
+      <!-- jQuery Knob -->
+      <div class="box box-solid">
+        <div class="box-header">
+          <i class="fa fa-bar-chart-o"></i>
+          <h3 class="box-title">设备状态<small>(%)</small></h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-default btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+            </button>
           </div>
-          <!-- /.box -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="row">
+            <div class="col-xs-6 col-md-2 col-md-offset-1 text-center">
+              <input type="text" class="knob" value="{{ up_rate }}" data-width="90" data-height="90" data-fgColor="#00a65a" data-readonly="true">
+              <div class="knob-label">在线</div>
+            </div>
+            <!-- ./col -->
+
+            <div class="col-xs-6 col-md-2 text-center">
+              <input type="text" class="knob" value="{{ o_rate }}" data-width="90" data-height="90" data-fgColor="#f56954" data-readonly="true">
+              <div class="knob-label">下线</div>
+            </div>
+            <!-- ./col -->
+
+            <div class="col-xs-6 col-md-2 text-center">
+              <input type="text" class="knob" value="{{ bd_rate }}" data-width="90" data-height="90" data-fgColor="#932ab6" data-readonly="true">
+              <div class="knob-label">故障</div>
+            </div>
+            <!-- ./col -->
+            <div class="col-xs-6 col-md-2 text-center">
+              <input type="text" class="knob" value="{{ bu_rate }}" data-width="90" data-height="90" data-fgColor="#3c8dbc" data-readonly="true">
+              <div class="knob-label">备用</div>
+            </div>
+                  <!-- ./col -->
+                  <div class="col-xs-6 col-md-2 text-center">
+                    <input type="text" class="knob" value="{{ un_rate }}" data-width="90" data-height="90" data-fgColor="#cccccc" data-readonly="true">
+                    <div class="knob-label">未知</div>
+                  </div>
+                  <!-- ./col -->
+                </div>
+                <!-- /.row -->
+              </div>
+              <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
         </div>
         <!-- /.col -->
-
-
-        <div class="col-md-6">
+          
+          <div class="col-md-6">
             <!-- BAR CHART -->
           <div class="box box-success">
 
@@ -129,10 +125,9 @@
         <!-- /.col (RIGHT) -->
       </div>
       <!-- /.row -->
-
-    </section>
-    <!-- /.content -->
-
+  {% endif %}
+</section>
+<!-- /.content -->
 {% endblock %}
 
 {% block script %}

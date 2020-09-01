@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import json
-
 import urllib.request
 import urllib.parse
 import os
@@ -16,7 +15,6 @@ sys.path.append(BASE_DIR)
 def update_test(data):
     """
     创建测试用例
-    :return:
     """
     # 将数据打包到一个字典内，并转换为json格式
     data = {"asset_data": json.dumps(data)}

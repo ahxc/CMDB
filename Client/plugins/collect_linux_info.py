@@ -59,10 +59,7 @@ def get_os_info():
         "os_type": "Linux",
     }
 
-    res_dic = {'os':[]}
-    res_dic['os'].append(data_dic)
-
-    return res_dic
+    return data_dic
 
 
 def get_cpu_info():
@@ -89,10 +86,8 @@ def get_cpu_info():
         raw_data["cpu_model"] = cpu_model[1].strip()
     else:
         raw_data["cpu_model"] = ''
-    data={'cpu':[]}
-    data['cpu'].append(raw_data)
 
-    return data
+    return raw_data
 
 
 def get_ram_info():
@@ -170,17 +165,20 @@ def get_disk_info():
     data_list = raw_data.split(",")
     model = data_list[0].split("=")[1]
     sn = data_list[2].split("=")[1].strip()
-
     size_data = subprocess.Popen("sudo fdisk -l /dev/sda | grep Disk|head -1", stdout=subprocess.PIPE, shell=True)
     size_data = size_data.stdout.read().decode()
     size = size_data.split("：")[1].strip().split("，")[0]
+    
+    disk_dict = {
+        'model': model,
+        'size': size,
+        'sn': sn,
+    }
 
-    result = {'physical_disk_driver': list()}
-    disk_dict = dict()
-    disk_dict["model"] = model
-    disk_dict["size"] = size
-    disk_dict["sn"] = sn
-    result['physical_disk_driver'].append(disk_dict)
+    disk_list=list()
+    result = {
+        'physical_disk_driver': disk_list.append(disk_dict),
+    }
 
     return result
 

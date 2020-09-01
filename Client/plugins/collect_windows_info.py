@@ -33,20 +33,20 @@ class Win32Info(object):
 
     def get_cpu_info(self):
         """
-        获取CPU的相关数据，这里只采集了三个数据，实际有更多，请自行选择需要的数据
-        :return:
+        获取CPU的相关数据
         """
         data = {}
-        cpu_lists = self.wmi_obj.Win32_Processor()# 若干个被list包裹的wmi对象，一个Win32_Processor对象包含有关cpu的属性
+        cpu_lists = self.wmi_obj.Win32_Processor()# 若干个被list包裹的wmi对象，一个对象对应一个u
         cpu_core_count = 0
         for cpu in cpu_lists:
-            # 统计所有cpu核数，测试机单u4核，cpu_lists长度1
+            # 统计所有cpu核数，测试机单u四核
             cpu_core_count += cpu.NumberOfCores
 
         data = {
-            'cpu_count': cpu_lists[0].Name
-            'cpu_model': len(cpu_lists)
-            'cpu_core_count': cpu_core_count
+            'cpu_model': cpu_lists[0].Name, # cpu型号一致
+            'cpu_count': len(cpu_lists),
+            'cpu_core_count': cpu_core_count,
+            'cpu_core': cpu_core_count/len(cpu_lists),
         }
 
         return data
@@ -57,6 +57,7 @@ class Win32Info(object):
         """
         data = []
         # 这个模块用SQL语言获取数据
+        # 若干个被list包裹的com32对象，一个对象对应一个内存条，win32对象无法打印观测其属性
         ram_collections = self.wmi_service_connector.ExecQuery("Select * from Win32_PhysicalMemory")
         for ram in ram_collections:    # 主机中存在很多根内存，要循环所有的内存数据
             ram_size = int(int(ram.Capacity) / (1024**3))  # 转换内存单位为GB
@@ -69,7 +70,7 @@ class Win32Info(object):
             }
             data.append(item_data)  # 将每条内存的信息，添加到一个列表里
 
-        return {"ram": data}    # 再对data列表封装一层，返回一个字典，方便上级方法的调用
+        return {"ram": data}
 
     def get_motherboard_info(self):
         """
@@ -77,11 +78,12 @@ class Win32Info(object):
         """
         computer_info = self.wmi_obj.Win32_ComputerSystem()[0]
         system_info = self.wmi_obj.Win32_OperatingSystem()[0]
-        data = {}
-        data['manufacturer'] = computer_info.Manufacturer
-        data['model'] = computer_info.Model
-        data['wake_up_type'] = computer_info.WakeUpType
-        data['sn'] = system_info.SerialNumber
+        data = {
+            'manufacturer': computer_info.Manufacturer,
+            'model': computer_info.Model,
+            'wake_up_type': computer_info.WakeUpType,
+            'sn': system_info.SerialNumber,
+        }
         
         return data
 
@@ -90,9 +92,15 @@ class Win32Info(object):
         硬盘信息
         """
         data = []
+        interface_choices = ["SAS", "SCSI", "SATA", "SSD"]
         for disk in self.wmi_obj.Win32_DiskDrive():     # 每块硬盘都要获取相应信息
-            disk_data = {}
-            interface_choices = ["SAS", "SCSI", "SATA", "SSD"]
+            disk_data = {
+                'slot': disk.Index,
+                'sn': disk.SerialNumber,
+                'model': disk.Model,
+                'manufacturer': disk.Caption.split()[0],
+                'capacity': int(int(disk.Size)/(1024**3)),
+            }
             for interface in interface_choices:
                 if interface in disk.Model:
                     disk_data['interface_type'] = interface
@@ -100,11 +108,6 @@ class Win32Info(object):
             else:
                 disk_data['interface_type'] = 'unknown'
 
-            disk_data['slot'] = disk.Index
-            disk_data['sn'] = disk.SerialNumber
-            disk_data['model'] = disk.Model
-            disk_data['manufacturer'] = disk.Manufacturer
-            disk_data['capacity'] = int(int(disk.Size) / (1024**3))
             data.append(disk_data)
 
         return {'physical_disk_driver': data}
@@ -115,14 +118,15 @@ class Win32Info(object):
         """
         data = []
         for nic in self.wmi_obj.Win32_NetworkAdapterConfiguration():
-            if nic.MACAddress is not None:
-                nic_data = {}
-                nic_data['mac'] = nic.MACAddress
-                nic_data['model'] = nic.Caption
-                nic_data['name'] = nic.Index
-                if nic.IPAddress is not None:
+            if nic.MACAddress:
+                nic_data = {
+                    'mac': nic.MACAddress,
+                    'model': nic.Description,
+                    'name': nic.Index,
+                }
+                if nic.IPAddress:
                     nic_data['ip_address'] = nic.IPAddress[0]
-                    nic_data['net_mask'] = nic.IPSubnet
+                    nic_data['net_mask'] = nic.IPSubnet[0]
                 else:
                     nic_data['ip_address'] = ''
                     nic_data['net_mask'] = ''
@@ -134,5 +138,4 @@ class Win32Info(object):
 if __name__ == "__main__":
     # 测试代码
     data = Win32Info().collect()
-    for key in data:
-        print(key, ":", data[key])
+    print(data)

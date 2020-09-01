@@ -51,7 +51,6 @@ class ArgvHandler(object):
         """
         收集硬件信息，然后发送到服务器。
         """
-
         info = info_collection.InfoCollection()
         asset_data = info.collect()
         data = {'asset_data': json.dumps(asset_data)}
@@ -74,7 +73,7 @@ class ArgvHandler(object):
             print("返回结果：%s" % message)
 
         except Exception as e:
-            message = '发送失败' + "   错误原因：  {}".format(e)
+            message = "发送失败，错误原因：{}".format(e)
             print("\033[31;1m发送失败，错误原因： %s\033[0m" % e)
 
         # 记录发送日志
