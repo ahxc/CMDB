@@ -5,11 +5,13 @@ import urllib.request
 import urllib.parse
 import os
 import sys
-from conf import settings
+
 
 # 设置工作目录，使得包和模块能够正常导入
 BASE_DIR = os.path.dirname(os.getcwd())
 sys.path.append(BASE_DIR)
+
+from conf import settings
 
 
 def update_test(data):
@@ -20,14 +22,14 @@ def update_test(data):
     data = {"asset_data": json.dumps(data)}
     # 根据settings中的配置，构造url
     url = "http://%s:%s%s" % (settings.Params['server'], settings.Params['port'], settings.Params['url'])
-    print('正在将数据发送至： [%s]  ......' % url)
+    print('正在将数据发送至：[%s]' % url)
 
     try:
         # 使用Python内置的urllib.request库，发送post请求。
         # 需要先将数据进行封装，并转换成bytes类型
         data_encode = urllib.parse.urlencode(data).encode()
         response = urllib.request.urlopen(url=url, data=data_encode, timeout=settings.Params['request_timeout'])
-        print("\033[31;1m发送完毕！\033[0m ")
+        print("发送完毕！")
         message = response.read().decode()
         print("返回结果：%s" % message)
     except Exception as e:

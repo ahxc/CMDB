@@ -23,7 +23,7 @@ class NewAsset(object):
         }
         # 以sn字段查询，defaults为要更新或创建的字段，不是备用值
         models.NewAssetApprovalZone.objects.update_or_create(sn=self.data['sn'], defaults=defaults)
-        return '资产已经加入或者更新待审批区域！'
+        return '新资产已加入！'
 
 
 def log(log_type, msg=None, asset=None, new_asset=None, request=None):
@@ -41,7 +41,7 @@ def log(log_type, msg=None, asset=None, new_asset=None, request=None):
         event.new_asset = new_asset
         event.detail = "审批失败！\n%s" % msg
         event.user = request.user
-        # 更多日志类型.....
+        # 更多日志类型
     elif log_type == "update":
         event.name = "%s <%s> ：  数据更新！" % (asset.asset_type, asset.sn)
         event.asset = asset
@@ -68,7 +68,8 @@ class ApproveAsset:
         ret = func()
         return ret
 
-    def _server_upline(self):
+    def _0_upline(self):
+        # 服务器上线
         # 原子性事务，任何一步出现异常，所有操作都要回滚。
         asset = self._create_asset()
         try:
@@ -170,7 +171,7 @@ class ApproveAsset:
             disk.manufacturer = disk_dict.get('manufacturer'),
             disk.slot = disk_dict.get('slot')
             disk.capacity = disk_dict.get('capacity', 0)
-            disk.interface_type = iface
+            disk.interface_type = disk_dict.get('interface_type')
 
             disk.save()
 

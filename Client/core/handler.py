@@ -58,7 +58,7 @@ class ArgvHandler(object):
             settings.Params['server'],
             settings.Params['port'],
             settings.Params['url'])
-        print('正在将数据发送至： [%s]' % url)
+        print('正在将数据发送至：[%s]' % url)
 
         try:
             # 使用Python内置的urllib.request库，发送post请求。
@@ -66,9 +66,9 @@ class ArgvHandler(object):
             data_encode = urllib.parse.urlencode(data).encode()
             response = urllib.request.urlopen(
                 url=url,
-                data=data_encode,
-                timeout=settings.Params['request_timeout'])
-            print("\033[31;1m发送完毕！\033[0m ")
+                data=data_encode,)
+                #timeout=settings.Params['request_timeout'])
+            print("发送完毕！")
             message = response.read().decode()
             print("返回结果：%s" % message)
 

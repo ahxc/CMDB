@@ -26,7 +26,7 @@ def collect():
             raw_data[key] = e
 
     data = {
-        'asset_type': 'server',
+        'asset_type': 0,
         'manufacturer': raw_data['Manufacturer'],
         'sn': raw_data['Serial Number'],
         'model': raw_data['Product Name'],

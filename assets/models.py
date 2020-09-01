@@ -407,15 +407,14 @@ class NewAssetApprovalZone(models.Model):
     """
     sn = models.CharField('资产SN号', max_length=128, unique=True)  # 此字段必填
     asset_type_choice = (
-        ('server', '服务器'),
-        ('networkdevice', '网络设备'),
-        ('storagedevice', '存储设备'),
-        ('securitydevice', '安全设备'),
-        ('software', '软件资产'),
+        (0, '服务器'),
+        (1, '网络设备'),
+        (2, '存储设备'),
+        (3, '安全设备'),
+        (4, '软件资产'),
         )
 
-    asset_type = models.CharField(choices=asset_type_choice, default='server', max_length=64, blank=True, null=True,
-                                  verbose_name='资产类型')
+    asset_type = models.CharField(choices=asset_type_choice, default=0, max_length=64, blank=True, null=True, verbose_name='资产类型')
     manufacturer = models.CharField(max_length=64, blank=True, null=True, verbose_name='生产厂商')
     model = models.CharField(max_length=128, blank=True, null=True, verbose_name='型号')
     ram_size = models.PositiveIntegerField(blank=True, null=True, verbose_name='内存大小')

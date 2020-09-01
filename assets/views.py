@@ -26,10 +26,10 @@ def dashboard(request):
         backup = models.Asset.objects.filter(status=4).count()
     
         up_rate = round(upline/total*100)
-        o_rate = round(offline / total * 100)
-        un_rate = round(unknown / total * 100)
-        bd_rate = round(breakdown / total * 100)
-        bu_rate = round(backup / total * 100)
+        o_rate = round(offline/total*100)
+        un_rate = round(unknown/total*100)
+        bd_rate = round(breakdown/total*100)
+        bu_rate = round(backup/total*100)
 
         server_number = models.Server.objects.count()
         networkdevice_number = models.NetworkDevice.objects.count()
