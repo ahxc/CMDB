@@ -26,7 +26,7 @@ def collect():
             raw_data[key] = e
 
     data = {
-        'asset_type': 0,
+        'asset_type': 'server',
         'manufacturer': raw_data['Manufacturer'],
         'sn': raw_data['Serial Number'],
         'model': raw_data['Product Name'],
@@ -171,8 +171,12 @@ def get_disk_info():
     
     disk_dict = {
         'model': model,
-        'size': size,
+        'capacity': size,
         'sn': sn,
+        'manufacturer': None,
+        'slot': None,
+        'interface_type': 'SATA',
+
     }
 
     disk_list=list()

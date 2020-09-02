@@ -68,7 +68,7 @@ class ApproveAsset:
         ret = func()
         return ret
 
-    def _0_upline(self):
+    def _server_upline(self):
         # 服务器上线
         # 原子性事务，任何一步出现异常，所有操作都要回滚。
         asset = self._create_asset()
@@ -343,7 +343,7 @@ class UpdateAsset:
                     'model': new_disks_dict[key].get('model'),
                     'manufacturer': new_disks_dict[key].get('manufacturer'),
                     'capacity': new_disks_dict[key].get('capacity', 0),
-                    'interface_type': new_disks_dict[key].get('interface_type', 'unknown'),
+                    'interface_type': new_disks_dict[key].get('interface_type', None),
                 }
                 models.Disk.objects.update_or_create(asset=self.asset, sn=key, defaults=defaults)
 

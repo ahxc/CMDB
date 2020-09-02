@@ -20,7 +20,7 @@ class Win32Info(object):
             'os_type': platform.system(),
             'os_release': "%s %s %s " % (platform.release(), platform.architecture()[0], platform.version()),
             'os_distribution': 'Microsoft',
-            'asset_type': 0,
+            'asset_type': 'server',
         }
 
         data.update(self.get_cpu_info())

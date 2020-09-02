@@ -61,7 +61,6 @@ if __name__ == '__main__':
                 "manufacturer": "kingstone ",
                 "sn": "345"
             },
-
         ],
         "manufacturer": "Intel",
         "model": "P67X-UD3R-B3",
@@ -69,7 +68,7 @@ if __name__ == '__main__':
         "sn": "20426-OEM-8992662-111111",
         "physical_disk_driver": [
             {
-                "iface_type": "unknown",
+                "interface_type": "unknown",
                 "slot": 0,
                 "sn": "3830414130423230343234362020202020202020",
                 "model": "KINGSTON SV100S264G ATA Device",
@@ -77,7 +76,7 @@ if __name__ == '__main__':
                 "capacity": 128
             },
             {
-                "iface_type": "SATA",
+                "interface_type": "SATA",
                 "slot": 1,
                 "sn": "383041413042323023234362020102020202020",
                 "model": "KINGSTON SV100S264G ATA Device",
@@ -158,11 +157,14 @@ if __name__ == '__main__':
         "physical_disk_driver": [
             {
                 "model": "VBOX HARDDISK",
-                "size": "50",
-                "sn": "VBeee1ba73-09085302"
+                "capacity": "50",
+                "sn": "VBeee1ba73-09085302",
+                "slot": None,
+                "manufacturer": None,
+                "interface_type": 'SATA',
             }
         ]
     }
 
     update_test(linux_data)
-    # update_test(windows_data)
+    update_test(windows_data)
